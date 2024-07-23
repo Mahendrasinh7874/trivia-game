@@ -50,6 +50,7 @@ const App: React.FC = () => {
     <>
       {/* for toast */}
       <Toaster
+        invert={true}
         visibleToasts={3}
         position="bottom-right"
         expand={true}
