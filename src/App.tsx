@@ -4,6 +4,7 @@ import Game from "./components/Game";
 import axios from "axios";
 import { toast, Toaster } from "sonner";
 import Loader from "./components/Loader";
+import Output from "./components/Output";
 
 export interface Question {
   type: string;
@@ -19,6 +20,7 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
+  const [correctAnswers, setCorrectAnswers] = useState<number>(0)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,9 +48,21 @@ const App: React.FC = () => {
     );
 
   const currentQuestion = questions[currentQuestionIndex];
+
+  const handleNext = (ans: boolean) => {
+    if (ans) setCorrectAnswers(prev => prev + 1);
+    setCurrentQuestionIndex(prev => prev + 1);
+  }
+
+
+  if (currentQuestionIndex >= questions.length) {
+    return (
+      <Output correctAnswers={correctAnswers} totalQuestions={questions.length} />
+    );
+  }
+
   return (
     <>
-      {/* for toast */}
       <Toaster
         invert={true}
         visibleToasts={3}
@@ -58,8 +72,10 @@ const App: React.FC = () => {
         richColors={true}
         closeButton={true}
       />
+
+
       {currentQuestion ? (
-        <Game loading={loading} currentQuestion={currentQuestion} />
+        <Game loading={loading} handleNext={handleNext} currentQuestion={currentQuestion} />
       ) : (
         <div className="flex items-center justify-center min-h-screen bg-gray-900">
           <h1 className="text-white text-2xl">No Questions Found</h1>
