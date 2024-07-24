@@ -1,16 +1,25 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import { Toaster } from "sonner";
 import App from "./App";
+import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  // <React.StrictMode>
-  <App />
-  // </React.StrictMode>
+  <>
+    <Toaster
+      invert={true}
+      visibleToasts={3}
+      position="bottom-right"
+      expand={true}
+      duration={4000}
+      richColors={true}
+      // closeButton={true}
+    />
+    <App />
+  </>
 );
 
 reportWebVitals();

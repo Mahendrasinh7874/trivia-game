@@ -14,7 +14,6 @@ const TriviaGame: React.FC<TriviaGameProps> = ({
   loading, handleNext
 }) => {
   const [selectedOption, setSelectedOption] = useState<string>("");
-  const [shuffledOptions, setShuffledOptions] = useState<string[]>([])
   const [showAnswers, setShowAnswers] = useState<boolean>(false)
 
   const {
@@ -26,16 +25,6 @@ const TriviaGame: React.FC<TriviaGameProps> = ({
 
   const options = [correct_answer, ...incorrect_answers].sort()
 
-  /* 
-    useEffect(() => {
-      if (currentQuestion) {
-        const options = [correct_answer, ...incorrect_answers].sort(
-          () => Math.random() - 0.5
-        );
-        setShuffledOptions(options);
-      }
-    }, [currentQuestion]);
-   */
   const handleOptionClick = (option: string) => {
     setSelectedOption(option);
 
@@ -54,7 +43,6 @@ const TriviaGame: React.FC<TriviaGameProps> = ({
 
 
   const handleSubmit = () => {
-    console.log("submitted")
     setShowAnswers(true);
   }
 
@@ -86,7 +74,7 @@ const TriviaGame: React.FC<TriviaGameProps> = ({
                       ? "bg-blue-500"
                       : "bg-gray-600 hover:bg-gray-500"
                     } `}
-                  onClick={() => handleOptionClick(option)}
+                  onClick={() => !showAnswers && handleOptionClick(option)}
                 >
                   {option}
                 </button>
@@ -95,7 +83,7 @@ const TriviaGame: React.FC<TriviaGameProps> = ({
             <div className="flex justify-between">
               <button
                 className="bg-green-500/90 disabled:text-gray-200 disabled:cursor-not-allowed disabled:bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-green-500 transition-colors duration-300"
-                disabled={!selectedOption}
+                disabled={!selectedOption || showAnswers}
                 onClick={handleSubmit}
               >
                 Submit
